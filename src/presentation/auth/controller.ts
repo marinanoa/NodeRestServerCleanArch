@@ -1,9 +1,19 @@
 import { Request, Response } from 'express';
-import { AuthRepository, RegisterUserDto } from '../../domain';
+import { AuthRepository, CustomError, RegisterUserDto } from '../../domain';
 
 export class AuthController {
   // dependency injection
   constructor(private readonly authRepository: AuthRepository) {}
+
+  // unknown because it can be a custome error, or from db, we don't know
+  private handleError(error: unknown, res: Response) {
+    if (error instanceof CustomError) {
+      return res.status(error.statusCode).json({ error: error.message });
+    }
+
+    console.log(error); // TODO use winston instead, or any other node logger
+    return CustomError.internalServerError();
+  }
 
   // async because this can be different
   // depending on the moment it is executed
@@ -20,6 +30,6 @@ export class AuthController {
     this.authRepository
       .register(registerUserDto!)
       .then((user) => res.json(user))
-      .catch((error) => res.status(500).json(error));
+      .catch((error) => this.handleError(error, res));
   };
 }

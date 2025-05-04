@@ -20,7 +20,7 @@ export class AuthMongoDataSourceImpl implements AuthDataSource {
       // Check mail, if already exists
       const emailExists = await UserModel.findOne({ email });
       if (emailExists) {
-        throw CustomError.badRequest('User with that email is already registered');
+        throw CustomError.badRequest('Invalid credentials'); // better than saying that it exists, could be useful for hackers
       }
 
       // Create user model and hash password
