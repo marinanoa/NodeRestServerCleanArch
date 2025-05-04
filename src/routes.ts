@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { AuthRoutes } from './presentation/auth/routes';
+import { AuthRoutes } from './presentation';
 
 export class AppRoutes {
   // Do it static to avoid multiple instances,

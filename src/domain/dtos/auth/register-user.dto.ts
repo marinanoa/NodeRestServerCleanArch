@@ -1,4 +1,4 @@
-import { Validators } from '../../../config';
+import { Validators } from '../../../presentation';
 
 export class RegisterUserDto {
   // we want to create it by sending an object in the body,
