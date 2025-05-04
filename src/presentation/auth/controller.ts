@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { AuthRepository, CustomError, RegisterUserDto } from '../../domain';
+import logger from '../../infrastructure/logger';
 
 export class AuthController {
   // dependency injection
@@ -7,11 +8,11 @@ export class AuthController {
 
   // unknown because it can be a custome error, or from db, we don't know
   private handleError(error: unknown, res: Response) {
+    logger.error(error);
     if (error instanceof CustomError) {
       return res.status(error.statusCode).json({ error: error.message });
     }
 
-    console.log(error); // TODO use winston instead, or any other node logger
     return CustomError.internalServerError();
   }
 
