@@ -1,7 +1,16 @@
+import { BcryptAdapter } from '../../config';
 import { UserModel } from '../../data/mongodb';
 import { AuthDataSource, CustomError, RegisterUserDto, UserEntity } from '../../domain';
+import { UserMapper } from '../mappers/user.mapper';
 
+type HashFunction = (password: string) => string;
+type CompareFunction = (password: string, hashed: string) => boolean;
 export class AuthMongoDataSourceImpl implements AuthDataSource {
+  constructor(
+    private readonly hashPassword: HashFunction,
+    private readonly comparePassword: CompareFunction,
+  ) {}
+
   // async envuelve el valor que se devuelve en un Promise.resolve, y si hay un error, hace un reject
   // sin async hay que envolver todo manualmente en un new Promise((resolve, reject) => { … })
   async register(registerUserDto: RegisterUserDto): Promise<UserEntity> {
@@ -14,19 +23,18 @@ export class AuthMongoDataSourceImpl implements AuthDataSource {
         throw CustomError.badRequest('User with that email is already registered');
       }
 
+      // Create user model and hash password
       const user = await UserModel.create({
         name, // name: name,
         email, // email: email,
-        password, //password: password,
+        password: this.hashPassword(password),
       });
 
-      // Hash password
-
+      // Save in database
       await user.save();
 
       // Map response
-      // create mapper
-      return new UserEntity(user.id, user.name, user.email, user.password, user.roles);
+      return UserMapper.userEntityFromObject(user);
     } catch (error) {
       if (error instanceof CustomError) {
         throw error;
