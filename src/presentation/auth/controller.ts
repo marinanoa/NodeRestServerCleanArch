@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { AuthRepository, CustomError, RegisterUserDto } from '../../domain';
+import { AuthRepository, CustomError, RegisterUser, RegisterUserDto } from '../../domain';
 import logger from '../../infrastructure/logger';
 import { JwtAdapter } from '../../config';
 import { UserModel } from '../../data/mongodb';
@@ -24,11 +24,10 @@ export class AuthController {
       res.status(400).json({ error }); // con {error} se envía un objeto con propiedad "error" como una clave
     }
 
-    this.authRepository
-      .register(registerUserDto!)
-      .then(async (user) => {
-        res.json({ user, token: await JwtAdapter.generateWebToken({ id: user.id }) });
-      })
+    // Controller is inyecting repository in the use case
+    new RegisterUser(this.authRepository)
+      .execute(registerUserDto!)
+      .then((data) => res.json(data))
       .catch((error) => this.handleError(error, res));
   };
 
