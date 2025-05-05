@@ -1,2 +1,3 @@
 export * from './envs';
-export * from './bcrypt';
+export * from './bcrypt.adapter';
+export * from './jwt.adapter';
