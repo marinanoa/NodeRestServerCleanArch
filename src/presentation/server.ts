@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
 import logger from '../infrastructure/logger';
+import morgan from 'morgan';
 
 interface Options {
   port?: number;
@@ -21,6 +22,11 @@ export class Server {
     // Middlewares
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true })); // x-www-form-urlenconded
+    this.app.use(
+      morgan('tiny', {
+        stream: { write: (msg) => logger.http(msg.trim()) },
+      }),
+    );
 
     // Use defined routes
     this.app.use(this.routes);

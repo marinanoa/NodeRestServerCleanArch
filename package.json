@@ -13,6 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/express": "^5.0.1",
+    "@types/morgan": "^1.9.9",
     "@types/node": "^22.15.3",
     "dotenv": "^16.5.0",
     "rimraf": "^6.0.1",
@@ -24,6 +25,7 @@
     "env-var": "^7.5.0",
     "express": "^5.1.0",
     "mongoose": "^8.14.1",
+    "morgan": "^1.10.0",
     "prettier": "^3.5.3",
     "winston": "^3.17.0"
   }
