@@ -1,5 +1,11 @@
 import jwt from 'jsonwebtoken';
 
+type JwtPayload = {
+  id: string;
+  iat: number;
+  exp: number;
+};
+
 export class JwtAdapter {
   static generateWebToken(payload: object, duration: string = '2h'): string {
     return jwt.sign(payload, 'SEED', {
@@ -7,7 +13,7 @@ export class JwtAdapter {
     });
   }
 
-  static validateWebToken(token: string) {
-    return jwt.verify(token, 'SEED');
+  static validateWebToken(token: string): JwtPayload {
+    return jwt.verify(token, 'SEED') as JwtPayload;
   }
 }

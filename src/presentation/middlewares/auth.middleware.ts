@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import logger from '../../infrastructure/logger';
 import { JwtAdapter } from '../../config';
+import { UserModel } from '../../data/mongodb';
 
 export class AuthMiddleware {
   static validateJWT: RequestHandler = async (req, res, next) => {
@@ -19,6 +20,12 @@ export class AuthMiddleware {
       if (!payload) {
         res.status(403).json({ error: 'Invalid token' });
         return;
+      }
+
+      const user = UserModel.findById(payload.id);
+      if (!user) {
+        // would be strange because our backend signed a token but then no user was found - deleted? id changed?
+        res.status(401).json({ error: 'Invalid token' }); // do not say user not found, in case of hackers
       }
 
       // req.body is undefined in GET requests because

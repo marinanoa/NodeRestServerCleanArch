@@ -40,7 +40,7 @@ export class AuthController {
 
   getUsers = (req: Request, res: Response) => {
     UserModel.find()
-      .then((users) => res.json({ users, token: res.locals.user }))
+      .then((users) => res.json({ users, user: res.locals.user }))
       .catch((error) => {
         logger.error(error);
         return res.status(500).json({ error: 'Internal server error' });
