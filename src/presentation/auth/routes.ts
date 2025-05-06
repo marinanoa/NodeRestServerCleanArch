@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { AuthController } from './controller';
 import { AuthMongoDataSourceImpl, AuthRepositoryImpl } from '../../infrastructure';
 import { BcryptAdapter } from '../../config';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
+import { AuthController } from './controller';
 
 export class AuthRoutes {
   static get routes(): Router {

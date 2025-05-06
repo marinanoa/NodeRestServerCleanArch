@@ -1,10 +1,10 @@
-import { RegisterUserDto } from '../dtos/auth/register-user.dto';
+import { LoginUserDto, RegisterUserDto } from '..';
 import { UserEntity } from '../entities/user.entity';
 
 export abstract class AuthDataSource {
-  // clase abstracta porque no quiero que haya instancias, solo implementar o expandir
+  // Abstract class because I do not want instances, only implement or expand
 
   abstract register(registerUserDto: RegisterUserDto): Promise<UserEntity>;
 
-  // abstract login(loginUserDto: LoginUserDto):Promise<UserEntity>
+  abstract login(loginUserDto: LoginUserDto): Promise<UserEntity>;
 }

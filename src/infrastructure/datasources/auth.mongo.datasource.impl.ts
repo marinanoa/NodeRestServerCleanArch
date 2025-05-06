@@ -1,5 +1,5 @@
 import { UserModel } from '../../data/mongodb';
-import { AuthDataSource, CustomError, RegisterUserDto, UserEntity } from '../../domain';
+import { AuthDataSource, CustomError, LoginUserDto, RegisterUserDto, UserEntity } from '../../domain';
 import { UserMapper } from '../mappers/user.mapper';
 
 type HashFunction = (password: string) => string;
@@ -31,6 +31,32 @@ export class AuthMongoDataSourceImpl implements AuthDataSource {
 
       // Save in database
       await user.save();
+
+      // Map response
+      return UserMapper.userEntityFromObject(user);
+    } catch (error) {
+      if (error instanceof CustomError) {
+        throw error;
+      }
+      throw CustomError.internalServerError();
+    }
+  }
+
+  async login(loginUserDto: LoginUserDto): Promise<UserEntity> {
+    const { email, password } = loginUserDto;
+
+    try {
+      // Check if user already exists
+      const user = await UserModel.findOne({ email });
+      if (!user) {
+        throw CustomError.badRequest('Invalid credentials');
+      }
+
+      // Check if password is correct
+      const validPassword = this.comparePassword(password, user.password);
+      if (!validPassword) {
+        throw CustomError.badRequest('Invalid credentials');
+      }
 
       // Map response
       return UserMapper.userEntityFromObject(user);

@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { AuthRepository, CustomError, RegisterUser, RegisterUserDto } from '../../domain';
+import { AuthRepository, CustomError, LoginUserDto, RegisterUser, RegisterUserDto } from '../../domain';
 import logger from '../../infrastructure/logger';
-import { JwtAdapter } from '../../config';
 import { UserModel } from '../../data/mongodb';
+import { LoginUser } from '../../domain/use-cases/auth/login-user.use-case';
 
 export class AuthController {
   // dependency injection
@@ -34,7 +34,16 @@ export class AuthController {
   // async because this can be different
   // depending on the moment it is executed
   loginUser = (req: Request, res: Response) => {
-    res.json('loginUser controller');
+    const [error, loginUserDto] = LoginUserDto.create(req.body);
+    if (error) {
+      res.status(400).json({ error });
+    }
+
+    // Controller is inyecting repository in the use case
+    new LoginUser(this.authRepository)
+      .execute(loginUserDto!)
+      .then((data) => res.json(data))
+      .catch((error) => this.handleError(error, res));
   };
 
   getUsers = (req: Request, res: Response) => {
