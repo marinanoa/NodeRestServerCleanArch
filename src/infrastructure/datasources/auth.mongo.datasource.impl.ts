@@ -1,4 +1,3 @@
-import { BcryptAdapter } from '../../config';
 import { UserModel } from '../../data/mongodb';
 import { AuthDataSource, CustomError, RegisterUserDto, UserEntity } from '../../domain';
 import { UserMapper } from '../mappers/user.mapper';

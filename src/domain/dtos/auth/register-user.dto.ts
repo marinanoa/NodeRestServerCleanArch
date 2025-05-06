@@ -13,6 +13,8 @@ export class RegisterUserDto {
   static create(body: { [key: string]: any }): [string?, RegisterUserDto?] {
     const { name, email, password } = body;
 
+    // Validations in DTO: to avoid malformed inputs.
+    // We throw error immediately before touching db or creating hashes
     if (!name) {
       return ['Missing name'];
     }
