@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { AuthRepository, CustomError, LoginUserDto, RegisterUser, RegisterUserDto } from '../../domain';
+import { AuthRepository, CustomError, LoginUserDto, RegisterUserDto } from '../../domain';
 import logger from '../../infrastructure/logger';
 import { UserModel } from '../../data/mongodb';
-import { LoginUser } from '../../domain/use-cases/auth/login-user.use-case';
+import { LoginUser, RegisterUser } from '../../application/use-cases';
 
 export class AuthController {
   // dependency injection

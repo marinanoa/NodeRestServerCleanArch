@@ -1,9 +1,7 @@
-import { JwtAdapter } from '../../../config';
-import { RegisterUserDto } from '../../dtos/auth/register-user.dto';
-import { CustomError } from '../../errors/custom.error';
-import { UserToken } from '../../interfaces/UserToken';
-import { AuthRepository } from '../../repositories/auth.repository';
-import { SignToken } from '../../types/SignToken';
+import { JwtAdapter } from '../../config';
+import { RegisterUserDto, AuthRepository, CustomError } from '../../domain';
+import { UserToken } from '../../domain/interfaces/UserToken';
+import { SignToken } from '../../domain/types/SignToken';
 
 interface RegisterUserUseCase {
   execute(registerUserDto: RegisterUserDto): Promise<UserToken>;
