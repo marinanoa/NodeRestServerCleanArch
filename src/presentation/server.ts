@@ -1,11 +1,18 @@
 import express, { Router } from 'express';
 import logger from '../infrastructure/logger';
 import morgan from 'morgan';
+import Cors from 'cors';
 
 interface Options {
   port?: number;
   routes: Router;
 }
+
+const corsOptions = Cors({
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+});
 
 export class Server {
   private readonly app = express();
@@ -27,6 +34,7 @@ export class Server {
         stream: { write: (msg) => logger.http(msg.trim()) },
       }),
     );
+    this.app.use(corsOptions);
 
     // Use defined routes
     this.app.use(this.routes);
