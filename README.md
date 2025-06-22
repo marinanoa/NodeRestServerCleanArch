@@ -89,7 +89,3 @@ You will need to get the \<TOKEN\> from the response of either the register or t
 curl --location 'http://localhost:3100/api/auth/' \
 --header 'Authorization: Bearer <TOKEN>'
 ```
-
-# TODO add changelog
-
-# TODO add eslint, show unused import as errors
