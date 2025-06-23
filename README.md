@@ -1,9 +1,9 @@
 ## Introduction
 
 This is a personal backend project used for practice.
-It is based in NodeJS and Express and implements a clean architecture.
+It is built with NodeJS and Express and implements a clean architecture.
 
-:construction: This project is under development. It misses tests, and other things.
+:construction: This project is under development. It is missing tests, and other things.
 
 ## How to run
 
@@ -34,7 +34,7 @@ npm install
 
 ### Start database
 
-You neede to have Docker Desktop open. Then run the following command:
+You need to have Docker Desktop open. Then run:
 
 ```bash
 docker compose up
