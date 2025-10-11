@@ -20,10 +20,10 @@ const userSchema = new Schema({
   roles: {
     type: [String],
     default: ['USER_ROLE'],
-    enum: ['USER_ROLE', 'ADMIN_ROLE'], // enum son los posibles valores, si envías otro, da error
+    enum: ['USER_ROLE', 'ADMIN_ROLE'],
   },
 });
 
-// User nombre del modelo
-// mongodb creará coleccion "users" porque pone minúsculas y plural automáticamente
+// 'User' as the name of the model:
+// mongodb will create collection "users" as it transforms to upper case and plural automatically
 export const UserModel = mongoose.model('User', userSchema);

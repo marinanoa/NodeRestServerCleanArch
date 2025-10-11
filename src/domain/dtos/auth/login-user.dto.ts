@@ -5,7 +5,7 @@ export class LoginUserDto {
     public email: string,
     public password: string,
   ) {}
-  // Return error o LoginUserDto
+  // Return error or LoginUserDto
   static create(body: { [key: string]: any }): [string?, LoginUserDto?] {
     const { name, email, password } = body;
 
